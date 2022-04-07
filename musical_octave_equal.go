@@ -5,6 +5,7 @@ import (
 	"math"
 )
 
+//MOctaveEqual represents a musical octave for a MTemperamentEqual with a specific concert pitch
 type MOctaveEqual struct {
 	lowerFrequency float64
 	upperFrequency float64
@@ -12,6 +13,7 @@ type MOctaveEqual struct {
 	allNotes       []MNote
 }
 
+//newMOctaveEqual is the constructor for MOctaveEqual used by MTemperamentEqual
 func newMOctaveEqual(octave MGOctave, freqC0 float64, lowerFrequency float64) *MOctaveEqual {
 	freqC := freqC0 * math.Pow(2, float64(octave))
 	midiNoteC := uint8(12 + (12 * octave))
@@ -24,6 +26,7 @@ func newMOctaveEqual(octave MGOctave, freqC0 float64, lowerFrequency float64) *M
 	return self
 }
 
+//calcAllNotesEqual calculates all notes for the equal temperament for the octave
 func calcAllNotesEqual(octave *MOctaveEqual, freqC float64, midiNoteC uint8) []MNote {
 	notes := make([]MNote, 12)
 	notes[0] = newMNoteEqual(freqC, C, octave, midiNoteC, "C", AddCents(freqC, -50))
@@ -41,21 +44,27 @@ func calcAllNotesEqual(octave *MOctaveEqual, freqC float64, midiNoteC uint8) []M
 	return notes
 }
 
+//AllNotes returns all notes that belong to the octave
 func (s MOctaveEqual) AllNotes() []MNote {
 	return s.allNotes
 }
 
+//FrequencyBelongsToOctave returns, if a tested frequency belongs to the octave or not
 func (s MOctaveEqual) FrequencyBelongsToOctave(frequency float64) bool {
 	return s.lowerFrequency <= frequency && s.upperFrequency > frequency
 }
 
+//LowerFrequency returns the lowest frequency that belongs to the octave
 func (s MOctaveEqual) LowerFrequency() float64 {
 	return s.lowerFrequency
 }
+
+//UpperFrequency returns the highest frequency that belongs to the octave
 func (s MOctaveEqual) UpperFrequency() float64 {
 	return s.upperFrequency
 }
 
+//Octave returns the readable octave name of the note
 func (s MOctaveEqual) Octave() MGOctave {
 	return s.octave
 }

@@ -48,6 +48,7 @@ func NewMTemperamentEqual(concertPitchA4 float64) *MTemperamentEqual {
 	}
 }
 
+//calcAllOctavesEqual calculates all the octaves in the midi range for the equal temperament
 func calcAllOctavesEqual(freqC0 float64) []MOctave {
 	octaves := make([]MOctave, 11)
 	octaves[0] = newMOctaveEqual(OctaveMinus1, freqC0, AddCents(freqC0/2, -50))
@@ -64,10 +65,12 @@ func calcAllOctavesEqual(freqC0 float64) []MOctave {
 	return octaves
 }
 
+//AllOctaves returns all available octaves within the midi range
 func (s MTemperamentEqual) AllOctaves() []MOctave {
 	return s.allOctaves
 }
 
+//NoteFromFrequency returns the musical note a Frequency belongs to
 func (s MTemperamentEqual) NoteFromFrequency(frequency float64) (MNote, error) {
 	o, err := s.OctaveFromFrequency(frequency)
 	if err != nil {
@@ -81,6 +84,8 @@ func (s MTemperamentEqual) NoteFromFrequency(frequency float64) (MNote, error) {
 	}
 	return nil, errors.New(fmt.Sprintf("Note for frequency %f not found", frequency))
 }
+
+//OctaveFromFrequency returns the octave a Frequency belongs to
 func (s MTemperamentEqual) OctaveFromFrequency(frequency float64) (MOctave, error) {
 	for _, o := range s.allOctaves {
 		if o.FrequencyBelongsToOctave(frequency) {
@@ -89,6 +94,8 @@ func (s MTemperamentEqual) OctaveFromFrequency(frequency float64) (MOctave, erro
 	}
 	return nil, errors.New(fmt.Sprintf("Octave for frequency %f not found", frequency))
 }
+
+//Octave returns the MOctave for the temperament from MGOctave
 func (s MTemperamentEqual) Octave(octave MGOctave) MOctave {
 	for _, o := range s.allOctaves {
 		if o.Octave() == octave {

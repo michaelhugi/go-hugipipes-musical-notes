@@ -10,7 +10,7 @@ type MOctave interface {
 	String() string
 	//FrequencyBelongsToOctave returns, if a tested frequency belongs to the octave or not
 	FrequencyBelongsToOctave(frequency float64) bool
-	//OctaveNumber returns the readable octave name of the note
+	//Octave returns the readable octave name of the note
 	Octave() MGOctave
 	//AllNotes returns all notes that belong to the octave
 	AllNotes() []MNote
