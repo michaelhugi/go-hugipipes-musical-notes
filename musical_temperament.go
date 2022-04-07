@@ -6,9 +6,9 @@ type MTemperament interface {
 	//AllOctaves returns all available octaves within the midi range
 	AllOctaves() []MOctave
 	//OctaveFromFrequency returns the octave a Frequency belongs to
-	OctaveFromFrequency(frequency float64) (*MOctave, error)
+	OctaveFromFrequency(frequency float64) (MOctave, error)
 	//NoteFromFrequency returns the musical note a Frequency belongs to
-	NoteFromFrequency(frequency float64) (*MNote, error)
-	//MGNoteToNote is used to change a musical generic note to a musical note of the equivalent temperament in the corresponding octave
-	MGNoteToNote(n *MGNote, o *MGOctave) *MNote
+	NoteFromFrequency(frequency float64) (MNote, error)
+	//Octave returns the MOctave for the temperament from MGOctave
+	Octave(octave MGOctave) MOctave
 }

@@ -11,13 +11,15 @@ type MNote interface {
 	//OffsetInCents returns the offset in cents from the compareFrequency
 	OffsetInCents(compareFrequency float64) float64
 	//Octave returns the musical octave the note belongs to
-	Octave() *MOctave
+	Octave() MOctave
 	//MidiNoteNumber returns the midi note number
 	MidiNoteNumber() uint8
 	//String returns the readable name of the note
 	String() string
 	//FrequencyBelongsToNote returns, if a tested frequency belongs to the note or not
 	FrequencyBelongsToNote(frequency float64) bool
+	//Note returns the generic type of the note
+	Note() MGNote
 }
 
 //MGNote s a musical generic note that can be declared to use a note without specifying a temperament.

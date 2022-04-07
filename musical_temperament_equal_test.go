@@ -1,8 +1,182 @@
 package go_hugipipes_musical_notes
 
-import "testing"
+import (
+	tu "github.com/informaticon/lib.go.base.test-utils"
+	"testing"
+)
 
 func TestMTemperamentEqualInterface(t *testing.T) {
 	te := NewMTemperamentEqual(440.0)
-	checkTemperamentInterface(*te)
+	checkTemperamentInterface(te)
+}
+
+func TestTemperament440(t *testing.T) {
+	te := NewMTemperamentEqual(440)
+	o := te.AllOctaves()
+	tu.AssertEq(len(o), 11, t)
+	tu.AssertEq(o[0].Octave(), -1, t)
+	tu.AssertEq(roundFloat(o[0].LowerFrequency(), 2), 7.94, t)
+	tu.AssertEq(o[1].Octave(), 0, t)
+	tu.AssertEq(roundFloat(o[1].LowerFrequency(), 2), 15.89, t)
+	tu.AssertEq(o[2].Octave(), 1, t)
+	tu.AssertEq(roundFloat(o[2].LowerFrequency(), 2), 31.77, t)
+	tu.AssertEq(o[3].Octave(), 2, t)
+	tu.AssertEq(roundFloat(o[3].LowerFrequency(), 2), 63.54, t)
+	tu.AssertEq(o[4].Octave(), 3, t)
+	tu.AssertEq(roundFloat(o[4].LowerFrequency(), 2), 127.09, t)
+	tu.AssertEq(o[5].Octave(), 4, t)
+	tu.AssertEq(roundFloat(o[5].LowerFrequency(), 2), 254.18, t)
+	tu.AssertEq(o[6].Octave(), 5, t)
+	tu.AssertEq(roundFloat(o[6].LowerFrequency(), 2), 508.36, t)
+	tu.AssertEq(o[7].Octave(), 6, t)
+	tu.AssertEq(roundFloat(o[7].LowerFrequency(), 2), 1016.71, t)
+	tu.AssertEq(o[8].Octave(), 7, t)
+	tu.AssertEq(roundFloat(o[8].LowerFrequency(), 2), 2033.42, t)
+	tu.AssertEq(o[9].Octave(), 8, t)
+	tu.AssertEq(roundFloat(o[9].LowerFrequency(), 2), 4066.84, t)
+	tu.AssertEq(o[10].Octave(), 9, t)
+	tu.AssertEq(roundFloat(o[10].LowerFrequency(), 2), 8133.68, t)
+
+	tu.AssertEq(roundFloat(te.freqC0, 2), 16.35, t)
+	tu.AssertEq(roundFloat(te.freqCis0, 2), 17.32, t)
+	tu.AssertEq(roundFloat(te.freqD0, 2), 18.35, t)
+	tu.AssertEq(roundFloat(te.freqDis0, 2), 19.45, t)
+	tu.AssertEq(roundFloat(te.freqE0, 2), 20.60, t)
+	tu.AssertEq(roundFloat(te.freqF0, 2), 21.83, t)
+	tu.AssertEq(roundFloat(te.freqFis0, 2), 23.12, t)
+	tu.AssertEq(roundFloat(te.freqG0, 2), 24.50, t)
+	tu.AssertEq(roundFloat(te.freqGis0, 2), 25.96, t)
+	tu.AssertEq(roundFloat(te.freqA0, 2), 27.50, t)
+	tu.AssertEq(roundFloat(te.freqAis0, 2), 29.14, t)
+	tu.AssertEq(roundFloat(te.freqB0, 2), 30.87, t)
+
+	tu.AssertEq(o[1].Octave(), 0, t)
+	tu.AssertEq(roundFloat(o[3].LowerFrequency(), 2), 63.54, t)
+
+	o4, err := te.OctaveFromFrequency(348.23)
+	tu.AssertNErr(err)
+	tu.AssertEq(o4.Octave(), 4, t)
+
+	cis5, err := te.NoteFromFrequency(552.37)
+	tu.AssertNErr(err)
+	tu.AssertEq(cis5.MidiNoteNumber(), 73, t)
+	tu.AssertEq(roundFloat(cis5.ExactFrequency(), 2), 554.37, t)
+
+	o5 := te.Octave(Octave5)
+	tu.AssertEq(roundFloat(o5.LowerFrequency(), 2), 508.36, t)
+
+}
+
+func TestTemperament442(t *testing.T) {
+
+	te := NewMTemperamentEqual(442)
+	o := te.AllOctaves()
+	tu.AssertEq(len(o), 11, t)
+	tu.AssertEq(o[0].Octave(), -1, t)
+	tu.AssertEq(roundFloat(o[0].LowerFrequency(), 2), 7.98, t)
+	tu.AssertEq(o[1].Octave(), 0, t)
+	tu.AssertEq(roundFloat(o[1].LowerFrequency(), 2), 15.96, t)
+	tu.AssertEq(o[2].Octave(), 1, t)
+	tu.AssertEq(roundFloat(o[2].LowerFrequency(), 2), 31.92, t)
+	tu.AssertEq(o[3].Octave(), 2, t)
+	tu.AssertEq(roundFloat(o[3].LowerFrequency(), 2), 63.83, t)
+	tu.AssertEq(o[4].Octave(), 3, t)
+	tu.AssertEq(roundFloat(o[4].LowerFrequency(), 2), 127.67, t)
+	tu.AssertEq(o[5].Octave(), 4, t)
+	tu.AssertEq(roundFloat(o[5].LowerFrequency(), 2), 255.33, t)
+	tu.AssertEq(o[6].Octave(), 5, t)
+	tu.AssertEq(roundFloat(o[6].LowerFrequency(), 2), 510.67, t)
+	tu.AssertEq(o[7].Octave(), 6, t)
+	tu.AssertEq(roundFloat(o[7].LowerFrequency(), 2), 1021.33, t)
+	tu.AssertEq(o[8].Octave(), 7, t)
+	tu.AssertEq(roundFloat(o[8].LowerFrequency(), 2), 2042.66, t)
+	tu.AssertEq(o[9].Octave(), 8, t)
+	tu.AssertEq(roundFloat(o[9].LowerFrequency(), 2), 4085.33, t)
+	tu.AssertEq(o[10].Octave(), 9, t)
+	tu.AssertEq(roundFloat(o[10].LowerFrequency(), 2), 8170.65, t)
+
+	tu.AssertEq(roundFloat(te.freqC0, 2), 16.43, t)
+	tu.AssertEq(roundFloat(te.freqCis0, 2), 17.4, t)
+	tu.AssertEq(roundFloat(te.freqD0, 2), 18.44, t)
+	tu.AssertEq(roundFloat(te.freqDis0, 2), 19.53, t)
+	tu.AssertEq(roundFloat(te.freqE0, 2), 20.7, t)
+	tu.AssertEq(roundFloat(te.freqF0, 2), 21.93, t)
+	tu.AssertEq(roundFloat(te.freqFis0, 2), 23.23, t)
+	tu.AssertEq(roundFloat(te.freqG0, 2), 24.61, t)
+	tu.AssertEq(roundFloat(te.freqGis0, 2), 26.07, t)
+	tu.AssertEq(roundFloat(te.freqA0, 2), 27.63, t)
+	tu.AssertEq(roundFloat(te.freqAis0, 2), 29.27, t)
+	tu.AssertEq(roundFloat(te.freqB0, 2), 31.01, t)
+
+	tu.AssertEq(o[1].Octave(), 0, t)
+	tu.AssertEq(roundFloat(o[3].LowerFrequency(), 2), 63.83, t)
+
+	o4, err := te.OctaveFromFrequency(348.23)
+	tu.AssertNErr(err)
+	tu.AssertEq(o4.Octave(), 4, t)
+
+	e5, err := te.NoteFromFrequency(645.26)
+	tu.AssertNErr(err)
+	tu.AssertEq(e5.MidiNoteNumber(), 76, t)
+	tu.AssertEq(roundFloat(e5.ExactFrequency(), 2), 662.25, t)
+
+	o5 := te.Octave(Octave5)
+	tu.AssertEq(roundFloat(o5.LowerFrequency(), 2), 510.67, t)
+}
+
+func TestTemperament220(t *testing.T) {
+	te := NewMTemperamentEqual(220)
+	o := te.AllOctaves()
+	tu.AssertEq(len(o), 11, t)
+	tu.AssertEq(o[0].Octave(), -1, t)
+	tu.AssertEq(roundFloat(o[0].LowerFrequency(), 2), 3.97, t)
+	tu.AssertEq(o[1].Octave(), 0, t)
+	tu.AssertEq(roundFloat(o[1].LowerFrequency(), 2), 7.94, t)
+	tu.AssertEq(o[2].Octave(), 1, t)
+	tu.AssertEq(roundFloat(o[2].LowerFrequency(), 2), 15.89, t)
+	tu.AssertEq(o[3].Octave(), 2, t)
+	tu.AssertEq(roundFloat(o[3].LowerFrequency(), 2), 31.77, t)
+	tu.AssertEq(o[4].Octave(), 3, t)
+	tu.AssertEq(roundFloat(o[4].LowerFrequency(), 2), 63.54, t)
+	tu.AssertEq(o[5].Octave(), 4, t)
+	tu.AssertEq(roundFloat(o[5].LowerFrequency(), 2), 127.09, t)
+	tu.AssertEq(o[6].Octave(), 5, t)
+	tu.AssertEq(roundFloat(o[6].LowerFrequency(), 2), 254.18, t)
+	tu.AssertEq(o[7].Octave(), 6, t)
+	tu.AssertEq(roundFloat(o[7].LowerFrequency(), 2), 508.36, t)
+	tu.AssertEq(o[8].Octave(), 7, t)
+	tu.AssertEq(roundFloat(o[8].LowerFrequency(), 2), 1016.71, t)
+	tu.AssertEq(o[9].Octave(), 8, t)
+	tu.AssertEq(roundFloat(o[9].LowerFrequency(), 2), 2033.42, t)
+	tu.AssertEq(o[10].Octave(), 9, t)
+	tu.AssertEq(roundFloat(o[10].LowerFrequency(), 2), 4066.84, t)
+
+	tu.AssertEq(roundFloat(te.freqC0, 2), 8.18, t)
+	tu.AssertEq(roundFloat(te.freqCis0, 2), 17.32/2, t)
+	tu.AssertEq(roundFloat(te.freqD0, 2), 9.18, t)
+	tu.AssertEq(roundFloat(te.freqDis0, 2), 9.72, t)
+	tu.AssertEq(roundFloat(te.freqE0, 2), 20.60/2, t)
+	tu.AssertEq(roundFloat(te.freqF0, 2), 10.91, t)
+	tu.AssertEq(roundFloat(te.freqFis0, 2), 23.12/2, t)
+	tu.AssertEq(roundFloat(te.freqG0, 2), 24.50/2, t)
+	tu.AssertEq(roundFloat(te.freqGis0, 2), 25.96/2, t)
+	tu.AssertEq(roundFloat(te.freqA0, 2), 27.50/2, t)
+	tu.AssertEq(roundFloat(te.freqAis0, 2), 29.14/2, t)
+	tu.AssertEq(roundFloat(te.freqB0, 2), 15.43, t)
+
+	tu.AssertEq(o[1].Octave(), 0, t)
+	tu.AssertEq(roundFloat(o[3].LowerFrequency(), 2), 31.77, t)
+
+	o5, err := te.OctaveFromFrequency(348.23)
+	tu.AssertNErr(err)
+	tu.AssertEq(o5.Octave(), 5, t)
+
+	cis6, err := te.NoteFromFrequency(552.37)
+	tu.AssertNErr(err)
+	tu.AssertEq(cis6.MidiNoteNumber(), 85, t)
+	tu.AssertEq(roundFloat(cis6.ExactFrequency(), 2), 554.37, t)
+
+	o6 := te.Octave(Octave6)
+	tu.AssertEq(roundFloat(o6.LowerFrequency(), 2), 508.36, t)
+
 }
