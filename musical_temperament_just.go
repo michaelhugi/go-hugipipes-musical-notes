@@ -33,7 +33,7 @@ func NewMTemperamentJust(baseNote MGNote, pitchNote MGNote, pitchOctave MGOctave
 
 	pitchNoteFrequency0 := pitch / math.Pow(2, float64(pitchOctave))
 
-	baseNoteFreq := justTempToBaseNote(baseNote, pitchNote, pitchNoteFrequency0)
+	baseNoteFreq := FrequencyOfBaseNoteInJustScale(baseNote, NewSimpleNote(pitchNote, pitchNoteFrequency0))
 
 	freqC0 := 0.0
 	freqCis0 := 0.0
@@ -48,7 +48,7 @@ func NewMTemperamentJust(baseNote MGNote, pitchNote MGNote, pitchOctave MGOctave
 	freqAis0 := 0.0
 	freqB0 := 0.0
 
-	for _, n := range JustScaleFromBaseNoteWithinOctave(NewSimpleNote(baseNoteFreq, pitchNote)) {
+	for _, n := range JustScaleFromBaseNoteWithinOctave(NewSimpleNote(baseNote, baseNoteFreq)) {
 		switch n.note {
 		case C:
 			freqC0 = n.frequency
@@ -70,6 +70,8 @@ func NewMTemperamentJust(baseNote MGNote, pitchNote MGNote, pitchOctave MGOctave
 			freqGis0 = n.frequency
 		case A:
 			freqA0 = n.frequency
+		case Ais:
+			freqAis0 = n.frequency
 		case B:
 			freqB0 = n.frequency
 		}
@@ -90,7 +92,7 @@ func NewMTemperamentJust(baseNote MGNote, pitchNote MGNote, pitchOctave MGOctave
 		allOctaves: calcAllOctavesJust(freqC0, freqCis0, freqD0, freqDis0, freqE0, freqF0, freqFis0, freqG0, freqGis0, freqA0, freqAis0, freqB0),
 		baseNote:   baseNote,
 	}
-	/*basePitchFreq := justTempToBaseNote(baseNote, pitchNote, pitch0)
+	/*basePitchFreq := FrequencyOfBaseNoteInJustScale(baseNote, pitchNote, pitch0)
 	println("BasePitchFreq: ", basePitchFreq, " ", baseNote)
 	freqC0 := justTempFromBaseNote(baseNote, C, basePitchFreq)
 	println("C0: ", freqC0, " ", baseNote)

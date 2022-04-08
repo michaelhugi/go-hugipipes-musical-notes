@@ -13,28 +13,16 @@ const justTempF10 = 9.0 / 5.0
 const justTempF11 = 15.0 / 8.0
 const justTempF12 = 2.0
 
-//justTempToBaseNote calculates the frequency of the base-note of the equal temperament from a frequency of a given note
+//FrequencyOfBaseNoteInJustScale calculates the frequency of the base-note of the equal temperament from a frequency of a given note
 //The function stays in the same octave and will *2 in case of an octave overflow
-func justTempToBaseNote(baseNote MGNote, note MGNote, freq float64) float64 {
-	offs := int(baseNote - note)
+func FrequencyOfBaseNoteInJustScale(baseNote MGNote, note SimpleNote) float64 {
+	offs := int(baseNote - note.note)
 	multi := 1.0
 	if offs > 0 {
 		offs -= 12
 		multi = 2.0
 	}
-	return freq * justTempNoteDiffToFreqFactor(offs) * multi
-}
-
-//justTempFromBaseNote calculates the frequency of a given note from the frequency of the base note for just temperament
-//The function stays in the same octave and will /2 in case of an octave overflow
-func justTempFromBaseNote(baseNote MGNote, note MGNote, baseNoteFreq float64) float64 {
-	offs := int(note - baseNote)
-	divider := 1.0
-	if offs < 0 {
-		divider = 2.0
-		offs += 12
-	}
-	return baseNoteFreq * justTempNoteDiffToFreqFactor(offs) / divider
+	return note.frequency * justTempNoteDiffToFreqFactor(offs) * multi
 }
 
 func justTempNoteDiffToFreqFactor(noteDiff int) float64 {
@@ -93,9 +81,6 @@ func justTempNoteDiffToFreqFactor(noteDiff int) float64 {
 	panic("Invalid notes for pitching in just tuning")
 }
 
-const justGT = 5.0 / 4.0
-const justKT = 6.0 / 5.0
-
 //JustScaleFromBaseNote calculates the scale of all notes in just temperament from the base-note
 func JustScaleFromBaseNote(baseNote float64) []float64 {
 	n := make([]float64, 12)
@@ -144,7 +129,7 @@ func JustScaleFromBaseNoteWithinOctave(baseNote SimpleNote) []SimpleNote {
 		if cPassed {
 			freq = freq / 2.0
 		}
-		n[i] = NewSimpleNote(freq, no)
+		n[i] = NewSimpleNote(no, freq)
 	}
 	return n
 }
@@ -155,7 +140,7 @@ type SimpleNote struct {
 	note      MGNote
 }
 
-func NewSimpleNote(frequency float64, note MGNote) SimpleNote {
+func NewSimpleNote(note MGNote, frequency float64) SimpleNote {
 	return SimpleNote{
 		frequency: frequency,
 		note:      note,
