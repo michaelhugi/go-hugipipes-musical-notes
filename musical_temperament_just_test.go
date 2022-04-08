@@ -150,7 +150,24 @@ func TestNewMTemperamentJust(t *testing.T) {
 }
 
 func TestMTemperamentJustAA440(t *testing.T) {
-	/*	tj := NewMTemperamentJust(A, A, Octave4, 440)
-		oct4 := tj.Octave(Octave4)
-		tu.AssertEq(roundFloat(oct4.Note(A).ExactFrequency(), 2), roundFloat(440, 2), t)*/
+	tj := NewMTemperamentJust(A, A, Octave4, 440)
+	oct4 := tj.Octave(Octave4)
+	tu.AssertEq(roundFloat(oct4.Note(A).ExactFrequency(), 2), roundFloat(440, 2), t)
+}
+
+func TestMTemperamentJustCA440(t *testing.T) {
+	tj := NewMTemperamentJust(C, A, Octave4, 440)
+	oct4 := tj.Octave(Octave4)
+	tu.AssertEq(roundFloat(oct4.Note(C).ExactFrequency(), 2), roundFloat(264, 2), t)
+	tu.AssertEq(roundFloat(oct4.Note(Cis).ExactFrequency(), 2), roundFloat(281.6, 2), t)
+	tu.AssertEq(roundFloat(oct4.Note(D).ExactFrequency(), 2), roundFloat(297, 2), t)
+	tu.AssertEq(roundFloat(oct4.Note(Dis).ExactFrequency(), 2), roundFloat(316.8, 2), t)
+	tu.AssertEq(roundFloat(oct4.Note(E).ExactFrequency(), 2), roundFloat(330.0, 2), t)
+	tu.AssertEq(roundFloat(oct4.Note(F).ExactFrequency(), 2), roundFloat(352.0, 2), t)
+	tu.AssertEq(roundFloat(oct4.Note(Fis).ExactFrequency(), 2), roundFloat(371.25, 2), t)
+	tu.AssertEq(roundFloat(oct4.Note(G).ExactFrequency(), 2), roundFloat(396.0, 2), t)
+	tu.AssertEq(roundFloat(oct4.Note(Gis).ExactFrequency(), 2), roundFloat(422.4, 2), t)
+	tu.AssertEq(roundFloat(oct4.Note(A).ExactFrequency(), 2), roundFloat(440, 2), t)
+	tu.AssertEq(roundFloat(oct4.Note(B).ExactFrequency(), 2), roundFloat(475.2, 2), t)
+	tu.AssertEq(roundFloat(oct4.Note(C).ExactFrequency(), 2), roundFloat(495.0, 2), t)
 }
