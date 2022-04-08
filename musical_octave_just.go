@@ -69,6 +69,7 @@ func (s MOctaveJust) Octave() MGOctave {
 	return s.octave
 }
 
+//Note returns the generic Note enum for the musical note
 func (s MOctaveJust) Note(n MGNote) MNote {
 	for _, nn := range s.allNotes {
 		if nn.Note() == n {
@@ -78,6 +79,7 @@ func (s MOctaveJust) Note(n MGNote) MNote {
 	panic(fmt.Sprintf("Note %d not found", n))
 }
 
+//MOctaveEqual is a human-readable representation of the note including the octave
 func (s MOctaveJust) String() string {
 	return fmt.Sprintf("%d", s.octave)
 }
