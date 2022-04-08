@@ -1,4 +1,4 @@
-module go-hugipipes-musical-notes
+module github.com/michaelhugi/go-hugipipes-musical-notes
 
 go 1.18
 
