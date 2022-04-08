@@ -148,3 +148,9 @@ func TestNewMTemperamentJust(t *testing.T) {
 	tu.AssertEq(fis3.Octave().Octave(), Octave3, t)
 	tu.AssertEq(roundFloat(fis3.ExactFrequency(), 2), 184.37, t)
 }
+
+func TestMTemperamentJustAA440(t *testing.T) {
+	/*	tj := NewMTemperamentJust(A, A, Octave4, 440)
+		oct4 := tj.Octave(Octave4)
+		tu.AssertEq(roundFloat(oct4.Note(A).ExactFrequency(), 2), roundFloat(440, 2), t)*/
+}

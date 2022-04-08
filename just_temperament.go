@@ -92,3 +92,72 @@ func justTempNoteDiffToFreqFactor(noteDiff int) float64 {
 	}
 	panic("Invalid notes for pitching in just tuning")
 }
+
+const justGT = 5.0 / 4.0
+const justKT = 6.0 / 5.0
+
+//JustScaleFromBaseNote calculates the scale of all notes in just temperament from the base-note
+func JustScaleFromBaseNote(baseNote float64) []float64 {
+	n := make([]float64, 12)
+	//C starting from C
+	n[0] = baseNote
+	//Cis starting from C
+	n[1] = baseNote * 16.0 / 15.0
+	//D starting from C
+	n[2] = baseNote * 9.0 / 8.0
+	//Dis starting from C
+	n[3] = baseNote * 6.0 / 5.0
+	//E starting from C
+	n[4] = baseNote * 5.0 / 4.0
+	//F starting from C
+	n[5] = baseNote * 4.0 / 3.0
+	//Fis starting from C
+	n[6] = baseNote * 45.0 / 32.0
+	//G starting from C
+	n[7] = baseNote * 3.0 / 2.0
+	//Gis starting from C
+	n[8] = baseNote * 8.0 / 5.0
+	//A starting from C
+	n[9] = baseNote * 5.0 / 3.0
+	//Ais starting from C
+	n[10] = baseNote * 9.0 / 5.0
+	//B starting from C
+	n[11] = baseNote * 15.0 / 8.0
+
+	return n
+}
+
+//JustScaleFromBaseNoteWithinOctave calculates the scale of all notes in just temperament from the base-note
+//but overflows when octave changes at C
+func JustScaleFromBaseNoteWithinOctave(baseNote SimpleNote) []SimpleNote {
+	fs := JustScaleFromBaseNote(baseNote.frequency)
+
+	n := make([]SimpleNote, len(fs))
+	cPassed := false
+	for i, freq := range fs {
+		no := AddHalftones(baseNote.note, i)
+		if i > 0 {
+			if no == C {
+				cPassed = true
+			}
+		}
+		if cPassed {
+			freq = freq / 2.0
+		}
+		n[i] = NewSimpleNote(freq, no)
+	}
+	return n
+}
+
+//SimpleNote contains a frequency ant what not it is. It's used for calculations of complex tunings
+type SimpleNote struct {
+	frequency float64
+	note      MGNote
+}
+
+func NewSimpleNote(frequency float64, note MGNote) SimpleNote {
+	return SimpleNote{
+		frequency: frequency,
+		note:      note,
+	}
+}
