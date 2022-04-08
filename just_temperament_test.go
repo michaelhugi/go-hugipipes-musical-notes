@@ -188,7 +188,7 @@ func TestToBaseNote(t *testing.T) {
 	tu.AssertEq(roundFloat(justTempToBaseNote(C, Fis, 10), 2), roundFloat(10.0/scaleJust6, 2), t)
 	tu.AssertEq(roundFloat(justTempToBaseNote(C, G, 10), 2), roundFloat(10.0/scaleJust7, 2), t)
 	tu.AssertEq(roundFloat(justTempToBaseNote(C, Gis, 10), 2), roundFloat(10.0/scaleJust8, 2), t)
-	tu.AssertEq(roundFloat(justTempToBaseNote(C, A, 10), 2), roundFloat(10.0/scaleJust9, 2), t)
+	tu.AssertEq(roundFloat(justTempToBaseNote(C, A, 440), 2), roundFloat(264, 2), t)
 	tu.AssertEq(roundFloat(justTempToBaseNote(C, Ais, 10), 2), roundFloat(10.0/scaleJust10, 2), t)
 	tu.AssertEq(roundFloat(justTempToBaseNote(C, B, 10), 2), roundFloat(10.0/scaleJust11, 2), t)
 

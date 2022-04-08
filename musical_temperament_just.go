@@ -31,8 +31,66 @@ type MTemperamentJust struct {
 //pitch is the frequency pitchNote at pitchOctave should have
 func NewMTemperamentJust(baseNote MGNote, pitchNote MGNote, pitchOctave MGOctave, pitch float64) *MTemperamentJust {
 
-	pitch0 := pitch / math.Pow(2, float64(pitchOctave))
-	basePitchFreq := justTempToBaseNote(baseNote, pitchNote, pitch0)
+	pitchNoteFrequency0 := pitch / math.Pow(2, float64(pitchOctave))
+
+	baseNoteFreq := justTempToBaseNote(baseNote, pitchNote, pitchNoteFrequency0)
+
+	freqC0 := 0.0
+	freqCis0 := 0.0
+	freqD0 := 0.0
+	freqDis0 := 0.0
+	freqE0 := 0.0
+	freqF0 := 0.0
+	freqFis0 := 0.0
+	freqG0 := 0.0
+	freqGis0 := 0.0
+	freqA0 := 0.0
+	freqAis0 := 0.0
+	freqB0 := 0.0
+
+	for _, n := range JustScaleFromBaseNoteWithinOctave(NewSimpleNote(baseNoteFreq, pitchNote)) {
+		switch n.note {
+		case C:
+			freqC0 = n.frequency
+		case Cis:
+			freqCis0 = n.frequency
+		case D:
+			freqD0 = n.frequency
+		case Dis:
+			freqDis0 = n.frequency
+		case E:
+			freqE0 = n.frequency
+		case F:
+			freqF0 = n.frequency
+		case Fis:
+			freqFis0 = n.frequency
+		case G:
+			freqG0 = n.frequency
+		case Gis:
+			freqGis0 = n.frequency
+		case A:
+			freqA0 = n.frequency
+		case B:
+			freqB0 = n.frequency
+		}
+	}
+	return &MTemperamentJust{
+		freqC0:     freqC0,
+		freqCis0:   freqCis0,
+		freqD0:     freqD0,
+		freqDis0:   freqDis0,
+		freqE0:     freqE0,
+		freqF0:     freqF0,
+		freqFis0:   freqFis0,
+		freqG0:     freqG0,
+		freqGis0:   freqGis0,
+		freqA0:     freqA0,
+		freqAis0:   freqAis0,
+		freqB0:     freqB0,
+		allOctaves: calcAllOctavesJust(freqC0, freqCis0, freqD0, freqDis0, freqE0, freqF0, freqFis0, freqG0, freqGis0, freqA0, freqAis0, freqB0),
+		baseNote:   baseNote,
+	}
+	/*basePitchFreq := justTempToBaseNote(baseNote, pitchNote, pitch0)
 	println("BasePitchFreq: ", basePitchFreq, " ", baseNote)
 	freqC0 := justTempFromBaseNote(baseNote, C, basePitchFreq)
 	println("C0: ", freqC0, " ", baseNote)
@@ -51,23 +109,23 @@ func NewMTemperamentJust(baseNote MGNote, pitchNote MGNote, pitchOctave MGOctave
 		freqB0:     justTempFromBaseNote(baseNote, B, basePitchFreq),
 		allOctaves: calcAllOctavesJust(freqC0),
 		baseNote:   baseNote,
-	}
+	}*/
 }
 
 //calcAllOctavesJust calculates all the octaves in the midi range for the Just temperament
-func calcAllOctavesJust(freqC0 float64) []MOctave {
+func calcAllOctavesJust(freqC0 float64, freqCis0 float64, freqD0 float64, freqDis0 float64, freqE0 float64, freqF0 float64, freqFis0 float64, freqG0 float64, freqGis0 float64, freqA0 float64, freqAis0 float64, freqB0 float64) []MOctave {
 	octaves := make([]MOctave, 11)
-	octaves[0] = newMOctaveJust(OctaveMinus1, freqC0, AddCents(freqC0/2, -50))
-	octaves[1] = newMOctaveJust(Octave0, freqC0, octaves[0].UpperFrequency())
-	octaves[2] = newMOctaveJust(Octave1, freqC0, octaves[1].UpperFrequency())
-	octaves[3] = newMOctaveJust(Octave2, freqC0, octaves[2].UpperFrequency())
-	octaves[4] = newMOctaveJust(Octave3, freqC0, octaves[3].UpperFrequency())
-	octaves[5] = newMOctaveJust(Octave4, freqC0, octaves[4].UpperFrequency())
-	octaves[6] = newMOctaveJust(Octave5, freqC0, octaves[5].UpperFrequency())
-	octaves[7] = newMOctaveJust(Octave6, freqC0, octaves[6].UpperFrequency())
-	octaves[8] = newMOctaveJust(Octave7, freqC0, octaves[7].UpperFrequency())
-	octaves[9] = newMOctaveJust(Octave8, freqC0, octaves[8].UpperFrequency())
-	octaves[10] = newMOctaveJust(Octave9, freqC0, octaves[9].UpperFrequency())
+	octaves[0] = newMOctaveJust(OctaveMinus1, freqC0, freqCis0, freqD0, freqDis0, freqE0, freqF0, freqFis0, freqG0, freqGis0, freqA0, freqAis0, freqB0, AddCents(freqC0/2, -50))
+	octaves[1] = newMOctaveJust(Octave0, freqC0, freqCis0, freqD0, freqDis0, freqE0, freqF0, freqFis0, freqG0, freqGis0, freqA0, freqAis0, freqB0, octaves[0].UpperFrequency())
+	octaves[2] = newMOctaveJust(Octave1, freqC0, freqCis0, freqD0, freqDis0, freqE0, freqF0, freqFis0, freqG0, freqGis0, freqA0, freqAis0, freqB0, octaves[1].UpperFrequency())
+	octaves[3] = newMOctaveJust(Octave2, freqC0, freqCis0, freqD0, freqDis0, freqE0, freqF0, freqFis0, freqG0, freqGis0, freqA0, freqAis0, freqB0, octaves[2].UpperFrequency())
+	octaves[4] = newMOctaveJust(Octave3, freqC0, freqCis0, freqD0, freqDis0, freqE0, freqF0, freqFis0, freqG0, freqGis0, freqA0, freqAis0, freqB0, octaves[3].UpperFrequency())
+	octaves[5] = newMOctaveJust(Octave4, freqC0, freqCis0, freqD0, freqDis0, freqE0, freqF0, freqFis0, freqG0, freqGis0, freqA0, freqAis0, freqB0, octaves[4].UpperFrequency())
+	octaves[6] = newMOctaveJust(Octave5, freqC0, freqCis0, freqD0, freqDis0, freqE0, freqF0, freqFis0, freqG0, freqGis0, freqA0, freqAis0, freqB0, octaves[5].UpperFrequency())
+	octaves[7] = newMOctaveJust(Octave6, freqC0, freqCis0, freqD0, freqDis0, freqE0, freqF0, freqFis0, freqG0, freqGis0, freqA0, freqAis0, freqB0, octaves[6].UpperFrequency())
+	octaves[8] = newMOctaveJust(Octave7, freqC0, freqCis0, freqD0, freqDis0, freqE0, freqF0, freqFis0, freqG0, freqGis0, freqA0, freqAis0, freqB0, octaves[7].UpperFrequency())
+	octaves[9] = newMOctaveJust(Octave8, freqC0, freqCis0, freqD0, freqDis0, freqE0, freqF0, freqFis0, freqG0, freqGis0, freqA0, freqAis0, freqB0, octaves[8].UpperFrequency())
+	octaves[10] = newMOctaveJust(Octave9, freqC0, freqCis0, freqD0, freqDis0, freqE0, freqF0, freqFis0, freqG0, freqGis0, freqA0, freqAis0, freqB0, octaves[9].UpperFrequency())
 	return octaves
 }
 
